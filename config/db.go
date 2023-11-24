@@ -3,18 +3,12 @@ package config
 import (
 	"dbgo/model"
 	"fmt"
+	"os"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-)
-
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "postgres"
-	dbname   = "golang"
 )
 
 var (
@@ -23,9 +17,22 @@ var (
 )
 
 func Connect() {
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+
+	var (
+		host     = os.Getenv("DB_HOST")
+		port     = os.Getenv("DB_PORT")
+		user     = os.Getenv("DB_USER")
+		password = os.Getenv("DB_PASSWORD")
+		dbname   = os.Getenv("DB_NAME")
+	)
+
 	psqlInfo := fmt.Sprintf(`
 	host=%s 
-	port=%d 
+	port=%s 
 	user=%s 	
 	password=%s 
 	dbname=%s 

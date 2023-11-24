@@ -4,6 +4,7 @@ import (
 	"dbgo/config"
 	"dbgo/controller"
 	auth "dbgo/middlerware"
+	"os"
 
 	"github.com/labstack/echo/v4"
 	middleware "github.com/labstack/echo/v4/middleware"
@@ -47,5 +48,6 @@ func main() {
 	// swagger
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
-	e.Logger.Fatal(e.Start(":1323"))
+	var PORT = os.Getenv("SERVER_PORT")
+	e.Logger.Fatal(e.Start(":" + PORT))
 }
